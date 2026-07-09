@@ -84,9 +84,9 @@
       max-width: 620px;
       margin: 0 auto;
       position: relative;
-      z-index: 260;
+      z-index: 9999;
     }
-    .menu-search:focus-within { z-index: 320; }
+    .menu-search:focus-within { z-index: 9999; }
     .menu-search-field {
       display: grid;
       grid-template-columns: 24px minmax(0, 1fr) 34px;
@@ -161,8 +161,8 @@
       overflow: hidden auto;
       display: none;
       text-align: left;
-      max-height: min(360px, 48vh);
-      z-index: 330;
+      max-height: min(420px, 52vh);
+      z-index: 10000;
     }
     .menu-suggestions.active { display: block; }
     .menu-suggestion {
@@ -228,7 +228,8 @@
     .category-nav-shell {
       position: sticky;
       top: 75px;
-      z-index: 140;
+      z-index: 10;
+      margin-top: 30px;
       background: rgba(22,7,5,0.62);
       backdrop-filter: blur(12px);
       padding: 14px 40px;
