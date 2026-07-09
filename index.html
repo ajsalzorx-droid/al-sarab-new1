@@ -1596,6 +1596,15 @@
 </footer>
 
 <script>
+  // Always open the homepage at the hero unless a section link is requested.
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+    window.addEventListener('load', () => window.scrollTo(0, 0));
+  }
+
   // Hero Image Slider
   const slides = document.querySelectorAll('.hero-slider img');
   let currentSlide = 0;
