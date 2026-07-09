@@ -8,23 +8,25 @@
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
-    if (!window.location.hash) {
-      const showHeroFirst = () => {
-        document.documentElement.style.scrollBehavior = 'auto';
-        window.scrollTo(0, 0);
-        requestAnimationFrame(() => window.scrollTo(0, 0));
-        window.setTimeout(() => window.scrollTo(0, 0), 80);
-        window.setTimeout(() => window.scrollTo(0, 0), 320);
-        window.setTimeout(() => {
-          window.scrollTo(0, 0);
-          document.documentElement.style.scrollBehavior = '';
-        }, 900);
-      };
-      showHeroFirst();
-      window.addEventListener('DOMContentLoaded', showHeroFirst);
-      window.addEventListener('pageshow', showHeroFirst);
-      window.addEventListener('load', showHeroFirst);
+    const initialHash = window.location.hash;
+    if (initialHash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
     }
+    const showHeroFirst = () => {
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+      window.setTimeout(() => window.scrollTo(0, 0), 80);
+      window.setTimeout(() => window.scrollTo(0, 0), 320);
+      window.setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.style.scrollBehavior = '';
+      }, 900);
+    };
+    showHeroFirst();
+    window.addEventListener('DOMContentLoaded', showHeroFirst);
+    window.addEventListener('pageshow', showHeroFirst);
+    window.addEventListener('load', showHeroFirst);
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet" />
   <style>
@@ -1313,109 +1315,6 @@
   </div>
 </div>
 
-<!-- MENU CATEGORIES -->
-<section class="section" id="menu">
-  <div class="section-header">
-    <div>
-      <div class="section-label">Authentic flavours since 1988</div>
-      <div class="section-title">EXPLORE <span class="menu-title-accent">OUR MENU</span></div>
-    </div>
-    <a href="menu.html" class="section-link">Full Menu &rarr;</a>
-  </div>
-
-  <div class="menu-grid" id="home-menu-grid">
-
-    <!-- 01 Burgers -->
-    <div class="menu-card">
-      <div class="card-number">01</div>
-      <div class="card-visual">
-        <img src="images/food/Thai-Style-Burger.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Burgers &amp; Sandwiches</div>
-      <div class="card-desc">Zinker, Spanish, Italian, Calzoni, Combo Subs and more â€” freshly made every order.</div>
-      <span class="card-price">From AED 8</span>
-    </div>
-
-    <!-- 02 Wraps -->
-    <div class="menu-card">
-      <div class="card-number">02</div>
-      <div class="card-visual">
-        <img src="images/food/Sarab-Sp.-Poratta.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Wraps &amp; Twisters</div>
-      <div class="card-desc">Twister, Wrap &amp; Poratta Sandwiches â€” crispy, saucy, impossible to resist.</div>
-      <span class="card-price">From AED 12</span>
-    </div>
-
-    <!-- 03 Shawarma -->
-    <div class="menu-card">
-      <div class="card-number">03</div>
-      <div class="card-visual">
-        <img src="images/food/Shawarma-Saj.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Arabic Specialties</div>
-      <div class="card-desc">Shawarma, Shish Tawook, Seafood Arabic, Kuku Sarab and authentic flatbreads.</div>
-      <span class="card-price">From AED 6</span>
-    </div>
-
-    <!-- 04 Fried Chicken -->
-    <div class="menu-card">
-      <div class="card-number">04</div>
-      <div class="card-visual">
-        <img src="images/food/snack-MEAL.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Fried &amp; Broast Chicken</div>
-      <div class="card-desc">Crispy fried chicken meals from Snack to Family to Function â€” feeds a crowd.</div>
-      <span class="card-price">From AED 15</span>
-    </div>
-
-    <!-- 05 Juices -->
-    <div class="menu-card">
-      <div class="card-number">05</div>
-      <div class="card-visual">
-        <img src="images/food/Salah.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Juices &amp; Milkshakes</div>
-      <div class="card-desc">Fresh juices, Signature blends, Tender Coconut specials &amp; Crush Milkshakes.</div>
-      <span class="card-price">From AED 6</span>
-    </div>
-
-    <!-- 06 Karak -->
-    <div class="menu-card">
-      <div class="card-number">06</div>
-      <div class="card-visual">
-        <img src="images/food/Tender-Coconut.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Karak Tea &amp; Coffee</div>
-      <div class="card-desc">Karak Masala, Zafran, Ginger, Arabic Coffee, Turkish Coffee, Cappuccino and more.</div>
-      <span class="card-price">From AED 1.50</span>
-    </div>
-
-    <!-- 07 Desserts -->
-    <div class="menu-card">
-      <div class="card-number">07</div>
-      <div class="card-visual">
-        <img src="images/food/ROYAL-FALOODA.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Desserts &amp; Falooda</div>
-      <div class="card-desc">Ice cream sundaes, Mojitos, Falooda Specials, Fruit Plates &amp; Choco'nut Sundae.</div>
-      <span class="card-price">From AED 7</span>
-    </div>
-
-    <!-- 08 Sides -->
-    <div class="menu-card">
-      <div class="card-number">08</div>
-      <div class="card-visual">
-        <img src="images/food/Tempura-Nuggets.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-      </div>
-      <div class="card-title">Sides &amp; Snacks</div>
-      <div class="card-desc">Dynamite, Loaded Fries, Indomie Spot, Slice Sandwiches, Fateera &amp; Plate Dishes.</div>
-      <span class="card-price">From AED 3</span>
-    </div>
-
-  </div>
-</section>
-
 <!-- ABOUT -->
 <section class="about-section" id="about">
   <div class="about-inner">
@@ -1619,6 +1518,110 @@
     </a>
   </div>
 </section>
+
+<!-- MENU CATEGORIES -->
+<section class="section" id="menu">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Authentic flavours since 1988</div>
+      <div class="section-title">EXPLORE <span class="menu-title-accent">OUR MENU</span></div>
+    </div>
+    <a href="menu.html" class="section-link">Full Menu &rarr;</a>
+  </div>
+
+  <div class="menu-grid" id="home-menu-grid">
+
+    <!-- 01 Burgers -->
+    <div class="menu-card">
+      <div class="card-number">01</div>
+      <div class="card-visual">
+        <img src="images/food/Thai-Style-Burger.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Burgers &amp; Sandwiches</div>
+      <div class="card-desc">Zinker, Spanish, Italian, Calzoni, Combo Subs and more - freshly made every order.</div>
+      <span class="card-price">From AED 8</span>
+    </div>
+
+    <!-- 02 Wraps -->
+    <div class="menu-card">
+      <div class="card-number">02</div>
+      <div class="card-visual">
+        <img src="images/food/Sarab-Sp.-Poratta.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Wraps &amp; Twisters</div>
+      <div class="card-desc">Twister, Wrap &amp; Poratta Sandwiches - crispy, saucy, impossible to resist.</div>
+      <span class="card-price">From AED 12</span>
+    </div>
+
+    <!-- 03 Shawarma -->
+    <div class="menu-card">
+      <div class="card-number">03</div>
+      <div class="card-visual">
+        <img src="images/food/Shawarma-Saj.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Arabic Specialties</div>
+      <div class="card-desc">Shawarma, Shish Tawook, Seafood Arabic, Kuku Sarab and authentic flatbreads.</div>
+      <span class="card-price">From AED 6</span>
+    </div>
+
+    <!-- 04 Fried Chicken -->
+    <div class="menu-card">
+      <div class="card-number">04</div>
+      <div class="card-visual">
+        <img src="images/food/snack-MEAL.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Fried &amp; Broast Chicken</div>
+      <div class="card-desc">Crispy fried chicken meals from Snack to Family to Function - feeds a crowd.</div>
+      <span class="card-price">From AED 15</span>
+    </div>
+
+    <!-- 05 Juices -->
+    <div class="menu-card">
+      <div class="card-number">05</div>
+      <div class="card-visual">
+        <img src="images/food/Salah.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Juices &amp; Milkshakes</div>
+      <div class="card-desc">Fresh juices, Signature blends, Tender Coconut specials &amp; Crush Milkshakes.</div>
+      <span class="card-price">From AED 6</span>
+    </div>
+
+    <!-- 06 Karak -->
+    <div class="menu-card">
+      <div class="card-number">06</div>
+      <div class="card-visual">
+        <img src="images/food/Tender-Coconut.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Karak Tea &amp; Coffee</div>
+      <div class="card-desc">Karak Masala, Zafran, Ginger, Arabic Coffee, Turkish Coffee, Cappuccino and more.</div>
+      <span class="card-price">From AED 1.50</span>
+    </div>
+
+    <!-- 07 Desserts -->
+    <div class="menu-card">
+      <div class="card-number">07</div>
+      <div class="card-visual">
+        <img src="images/food/ROYAL-FALOODA.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Desserts &amp; Falooda</div>
+      <div class="card-desc">Ice cream sundaes, Mojitos, Falooda Specials, Fruit Plates &amp; Choco'nut Sundae.</div>
+      <span class="card-price">From AED 7</span>
+    </div>
+
+    <!-- 08 Sides -->
+    <div class="menu-card">
+      <div class="card-number">08</div>
+      <div class="card-visual">
+        <img src="images/food/Tempura-Nuggets.jpg" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+      </div>
+      <div class="card-title">Sides &amp; Snacks</div>
+      <div class="card-desc">Dynamite, Loaded Fries, Indomie Spot, Slice Sandwiches, Fateera &amp; Plate Dishes.</div>
+      <span class="card-price">From AED 3</span>
+    </div>
+
+  </div>
+</section>
+
 <!-- DELIVERY -->
 <section class="delivery-strip" id="delivery">
   <div class="delivery-left">
