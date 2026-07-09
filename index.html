@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Al Sarab Cafeteria - Since 1988</title>
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+      window.addEventListener('pageshow', () => window.scrollTo(0, 0));
+      window.addEventListener('load', () => window.scrollTo(0, 0));
+    }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -1596,15 +1606,6 @@
 </footer>
 
 <script>
-  // Always open the homepage at the hero unless a section link is requested.
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  if (!window.location.hash) {
-    window.scrollTo(0, 0);
-    window.addEventListener('load', () => window.scrollTo(0, 0));
-  }
-
   // Hero Image Slider
   const slides = document.querySelectorAll('.hero-slider img');
   let currentSlide = 0;
