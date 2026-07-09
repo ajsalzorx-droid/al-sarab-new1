@@ -9,9 +9,21 @@
       history.scrollRestoration = 'manual';
     }
     if (!window.location.hash) {
-      window.scrollTo(0, 0);
-      window.addEventListener('pageshow', () => window.scrollTo(0, 0));
-      window.addEventListener('load', () => window.scrollTo(0, 0));
+      const showHeroFirst = () => {
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        requestAnimationFrame(() => window.scrollTo(0, 0));
+        window.setTimeout(() => window.scrollTo(0, 0), 80);
+        window.setTimeout(() => window.scrollTo(0, 0), 320);
+        window.setTimeout(() => {
+          window.scrollTo(0, 0);
+          document.documentElement.style.scrollBehavior = '';
+        }, 900);
+      };
+      showHeroFirst();
+      window.addEventListener('DOMContentLoaded', showHeroFirst);
+      window.addEventListener('pageshow', showHeroFirst);
+      window.addEventListener('load', showHeroFirst);
     }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet" />
