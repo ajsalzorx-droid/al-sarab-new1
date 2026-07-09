@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full Menu - Al Sarab Cafeteria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #d31818;
+      --dark-red: #a11212;
+      --cream: #111111;
+      --dark: #ffffff;
+      --mid: #f9f9f9;
+      --mid2: #f0f0f0;
+      --light-text: #666666;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: linear-gradient(135deg, #e94e4e 0%, #df2424 48%, #c90000 100%);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.28) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 70%, rgba(255,255,255,0.22) 0 2px, transparent 3px),
+        url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' opacity='.16'%3E%3Cpath d='M20 31h38c0-11-8-18-19-18s-19 7-19 18z'/%3E%3Cpath d='M18 39h42M23 49h32'/%3E%3Cpath d='M91 18c17 6 23 26 12 42M84 34c11 3 16 16 8 27'/%3E%3Cpath d='M29 95c10-11 29-11 39 0M26 103h45M31 112h35'/%3E%3Cpath d='M95 91l21 21M116 91l-21 21'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 96px 96px, 132px 132px, 140px 140px;
+      opacity: 0.8;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 56px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(211,24,24,0.18);
+    }
+    .nav-logo a { display: inline-flex; align-items: center; text-decoration: none; }
+    .nav-logo img { display: block; width: 154px; height: 64px; object-fit: contain; object-position: left center; }
+    nav ul { list-style: none; display: flex; gap: 38px; align-items: center; }
+    nav ul li a { text-decoration: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); transition: color 0.2s; }
+    nav ul li a:hover { color: var(--red); }
+    .nav-order-btn { background: var(--red) !important; color: var(--white) !important; padding: 10px 24px; transition: background 0.2s !important; }
+    .nav-order-btn:hover { background: var(--dark-red) !important; }
+
+    /* MENU HERO */
+    .menu-hero {
+      padding: 160px 80px 60px;
+      background: transparent;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .menu-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); letter-spacing: 0.02em; color: var(--white); margin-bottom: 14px; }
+    .menu-hero h1 .highlight { color: #ffffff; }
+    .menu-hero p { color: rgba(255,255,255,0.86); font-size: 1.1rem; max-width: 500px; margin: 0 auto 30px; line-height: 1.6; }
+
+    /* CATEGORY NAV */
+    .category-nav-shell {
+      position: sticky;
+      top: 75px;
+      z-index: 150;
+      background: rgba(22,7,5,0.62);
+      backdrop-filter: blur(12px);
+      padding: 14px 40px;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 42px;
+      gap: 10px;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.14);
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+    .category-nav {
+      overflow-x: auto;
+      white-space: nowrap;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+    .category-nav::-webkit-scrollbar { display: none; }
+    .category-nav a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.86);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .category-nav a:hover {
+      color: #ffffff;
+      background: rgba(211,24,24,0.72);
+      border-color: rgba(255,255,255,0.42);
+      transform: translateY(-2px);
+    }
+    .category-slide-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 8px;
+      background: rgba(211,24,24,0.72);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.7rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s, transform 0.2s;
+    }
+    .category-slide-btn:hover { background: var(--dark-red); transform: translateY(-1px); }
+    .category-slide-btn:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+    /* MENU CATEGORY */
+    .menu-category {
+      padding: 70px 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .menu-category-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      color: var(--white);
+      margin: 0 auto 32px;
+      display: table;
+      text-align: center;
+      padding-bottom: 12px;
+      letter-spacing: 0.04em;
+      position: relative;
+    }
+    .menu-category-title::after {
+      content: '';
+      display: block;
+      width: 78px;
+      height: 3px;
+      background: var(--red);
+      margin: 14px auto 0;
+    }
+    .category-banner {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      display: none; /* Only show if image exists */
+    }
+    .category-banner.active { display: block; }
+    .items-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .item-row {
+      background: rgba(20,7,5,0.44);
+      padding: 0;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+      transition: background 0.2s, transform 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+      overflow: hidden;
+    }
+    .item-row:hover {
+      background: rgba(135,23,18,0.48);
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.45);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.16);
+    }
+    .item-img {
+      width: 100%;
+      height: 160px;
+      border-radius: 0;
+      object-fit: contain;
+      background: rgba(255,255,255,0.96);
+      padding: 14px;
+      flex-shrink: 0;
+    }
+    .item-info { flex-grow: 1; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 2px 16px 16px; }
+    .item-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem;
+      color: var(--white);
+      margin-bottom: 2px;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .item-add {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .item-arabic {
+      font-family: 'Noto Kufi Arabic', sans-serif;
+      font-size: 0.9rem;
+      color: var(--light-text);
+      opacity: 0.8;
+    }
+    .item-price {
+      font-weight: 700;
+      color: var(--red);
+      font-size: 1.15rem;
+      white-space: nowrap;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.05em;
+    }
+    .btn-add-mini {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 6px 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 15px;
+      transition: background 0.2s;
+    }
+    .btn-add-mini:hover { background: var(--dark-red); }
+
+    /* CART WIDGET */
+    #cart-widget {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--dark);
+      width: 320px;
+      border-radius: 16px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+      transform: translateY(150%);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1000;
+      overflow: hidden;
+      border: 1px solid rgba(211,24,24,0.2);
+    }
+    #cart-widget.active { transform: translateY(0); }
+    .cart-header { background: var(--red); color: var(--white); padding: 16px 20px; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
+    .cart-body { padding: 20px; max-height: 300px; overflow-y: auto; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(17,17,17,0.05); }
+    .cart-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .cart-item-name { font-size: 0.9rem; font-weight: 600; color: var(--cream); }
+    .cart-item-price { font-size: 0.85rem; color: var(--red); font-weight: 700; display: flex; align-items: center; gap: 12px; }
+    .btn-remove { background: transparent; border: none; color: #999; cursor: pointer; font-size: 1.2rem; line-height: 1; padding: 0 4px; }
+    .btn-remove:hover { color: var(--red); }
+    .cart-footer { padding: 20px; background: var(--mid); border-top: 1px solid rgba(17,17,17,0.05); }
+    .cart-total-row { display: flex; justify-content: space-between; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--cream); margin-bottom: 16px; }
+    .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.05em; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s, transform 0.15s; }
+    .btn-checkout:hover { background: #128C7E; transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer { background: #f5f3f0; padding: 64px 80px 40px; border-top: 1px solid rgba(211,24,24,0.1); position: relative; z-index: 1; color: var(--cream); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 64px; margin-bottom: 52px; }
+    .footer-logo { margin-bottom: 16px; }
+    .footer-logo img { width: 170px; height: auto; display: block; }
+    .footer-brand p { font-size: 0.84rem; color: var(--light-text); line-height: 1.75; max-width: 320px; }
+    .footer-email { display: inline-block; margin-top: 18px; font-size: 0.78rem; color: var(--red); text-decoration: none; letter-spacing: 0.04em; }
+    .footer-col h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.14em; color: var(--cream); margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; font-size: 0.8rem; color: var(--light-text); }
+    .footer-col ul li a { text-decoration: none; color: var(--light-text); transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--red); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid rgba(17,17,17,0.05); }
+    .footer-bottom p { font-size: 0.72rem; color: rgba(102,102,102,0.5); letter-spacing: 0.06em; }
+    .social-links { display: flex; gap: 10px; }
+    .social-link { width: 36px; height: 36px; background: rgba(17,17,17,0.05); display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--light-text); transition: background 0.2s, color 0.2s; }
+    .social-link svg { width: 16px; height: 16px; }
+    .social-link:hover { background: var(--red); color: var(--white); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      nav { padding: 16px 36px; }
+      nav ul { gap: 24px; }
+      .nav-logo img { width: 132px; height: 58px; }
+      .menu-category { padding: 58px 40px; }
+      .items-list { gap: 14px; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav ul { display: none; }
+      .menu-hero { padding: 120px 24px 40px; }
+      .category-nav-shell { padding: 12px 16px; top: 65px; grid-template-columns: 38px minmax(0, 1fr) 38px; }
+      .category-slide-btn { width: 38px; height: 38px; }
+      .menu-category { padding: 40px 24px; }
+      .items-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .item-img { height: 190px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      footer { padding: 50px 24px 32px; }
+      #cart-widget { bottom: 0; right: 0; width: 100%; border-radius: 16px 16px 0 0; }
+    }
+    @media (max-width: 620px) {
+      nav { padding: 12px 18px; }
+      .nav-logo img { width: 118px; height: 52px; }
+      .menu-hero { padding: 104px 20px 34px; }
+      .menu-hero h1 { font-size: 3.4rem; }
+      .menu-hero p { font-size: 0.98rem; }
+      .category-nav-shell { top: 77px; padding: 10px 12px; grid-template-columns: 34px minmax(0, 1fr) 34px; }
+      .category-slide-btn { width: 34px; height: 34px; border-radius: 7px; }
+      .category-nav a { padding: 9px 12px; font-size: 0.92rem; }
+      .menu-category { padding: 34px 16px; }
+      .items-list { grid-template-columns: 1fr; gap: 14px; }
+      .item-row { border-radius: 10px; }
+      .item-img { height: 170px; }
+      .item-info { padding: 2px 14px 14px; }
+      .footer-bottom { flex-direction: column; gap: 18px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><a href="index.html" aria-label="Al Sarab Cafeteria"><img src="images/al-sarab-logo-cropped.png" alt="Al Sarab Cafeteria"></a></div>
+  <ul>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="index.html#featured">Specials</a></li>
+    <li><a href="index.html#branches">Branches</a></li>
+    <li><a href="#cart" class="nav-order-btn">Order Now</a></li>
+  </ul>
+</nav>
+
+<!-- MENU HERO -->
+<header class="menu-hero">
+  <h1>EXPLORE <span class="highlight">OUR MENU</span></h1>
+  <p>Authentic flavours since 1988. Add items to your cart and order via WhatsApp for quick delivery.</p>
+</header>
+
+<!-- CATEGORY NAV -->
+<div class="category-nav-shell">
+  <button class="category-slide-btn" type="button" data-slide-menu="-1" aria-label="Slide menu categories left">&lsaquo;</button>
+  <div class="category-nav">
+    <a href="#signature">Specials</a>
+    <a href="#tea">Hot Drinks</a>
+    <a href="#burgers">Burgers</a>
+    <a href="#poratta">Poratta</a>
+    <a href="#sandwiches">Sandwiches</a>
+    <a href="#juices">Juices</a>
+    <a href="#meals">Meals</a>
+  </div>
+  <button class="category-slide-btn" type="button" data-slide-menu="1" aria-label="Slide menu categories right">&rsaquo;</button>
+</div>
+
+<main id="menu-content">
+  <section class="menu-category" id="signature">
+    <h2 class="menu-category-title">Signature Special</h2>
+    <img src="images/food/wagyu-slider-(beef---chicken).jpg" class="category-banner active" alt="Signature Specials">
+    <div class="items-list">
+      <div class="item-row">
+        <img src="images/food/wagyu-slider-(beef---chicken).jpg" class="item-img" alt="Wagyu Slider">
+        <div class="item-info">
+          <div class="item-name">WAGYU SLIDER (BEEF / CHICKEN)</div>
+          <div class="item-arabic">لحم بقر / دجاج</div>
+        </div>
+        <div class="item-price">AED 32.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Wagyu Slider', 32)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/snack-MEAL.jpg" class="item-img" alt="Sarab Tender Cheetos">
+        <div class="item-info">
+          <div class="item-name">SARAB TENDER CHEETOS</div>
+          <div class="item-arabic">ساراب تيندر شيتوس</div>
+        </div>
+        <div class="item-price">AED 18/23</div>
+        <button class="btn-add-mini" onclick="addToCart('Sarab Tender Cheetos', 18)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Thai-Style-Burger.jpg" class="item-img" alt="Signature Zinker">
+        <div class="item-info">
+          <div class="item-name">SIGNATURE ZINKER</div>
+          <div class="item-arabic">زنجر سبنشال</div>
+        </div>
+        <div class="item-price">AED 15.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Signature Zinker', 15)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Thai-Style-Burger.jpg" class="item-img" alt="Double Mathafi Burger">
+        <div class="item-info">
+          <div class="item-name">DOUBLE MATHAFI BURGER</div>
+          <div class="item-arabic">برجر ماثافي دبل</div>
+        </div>
+        <div class="item-price">AED 20.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Double Mathafi Burger', 20)">Add +</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flask Tea -->
+  <section class="menu-category" id="tea" style="background: var(--mid);">
+    <h2 class="menu-category-title">Flask Tea & Hot Drinks</h2>
+    <img src="images/food/Tender-Coconut.jpg" class="category-banner active" alt="Hot Drinks">
+    <div class="items-list">
+      <div class="item-row">
+        <img src="images/food/Tender-Coconut.jpg" class="item-img" alt="Karak Tea">
+        <div class="item-info">
+          <div class="item-name">KARAK TEA</div>
+          <div class="item-arabic">شاي كراك</div>
+        </div>
+        <div class="item-price">AED 3/5</div>
+        <button class="btn-add-mini" onclick="addToCart('Karak Tea', 3)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Tender-Coconut.jpg" class="item-img" alt="Maliki Tea">
+        <div class="item-info">
+          <div class="item-name">MALIKI TEA</div>
+          <div class="item-arabic">شاي مليكي</div>
+        </div>
+        <div class="item-price">AED 4/5</div>
+        <button class="btn-add-mini" onclick="addToCart('Maliki Tea', 4)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Tender-Coconut.jpg" class="item-img" alt="Arabic Coffee">
+        <div class="item-info">
+          <div class="item-name">ARABIC COFFEE</div>
+          <div class="item-arabic">قهوة عربي</div>
+        </div>
+        <div class="item-price">AED 2/4</div>
+        <button class="btn-add-mini" onclick="addToCart('Arabic Coffee', 2)">Add +</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-category" id="burgers">
+    <h2 class="menu-category-title">Burgers</h2>
+    <img src="images/food/Thai-Style-Burger.jpg" class="category-banner active" alt="Burgers">
+    <div class="items-list">
+      <div class="item-row">
+        <img src="images/food/Thai-Style-Burger.jpg" class="item-img" alt="Mega Zinker">
+        <div class="item-info">
+          <div class="item-name">MEGA ZINKER SP. (NORMAL)</div>
+        </div>
+        <div class="item-price">AED 18.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Mega Zinker Sp.', 18)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Thai-Style-Burger.jpg" class="item-img" alt="Double Burger">
+        <div class="item-info">
+          <div class="item-name">DOUBLE BURGER CHI./MEAT</div>
+        </div>
+        <div class="item-price">AED 14/17</div>
+        <button class="btn-add-mini" onclick="addToCart('Double Burger', 14)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Thai-Style-Burger.jpg" class="item-img" alt="Zinker Burger">
+        <div class="item-info">
+          <div class="item-name">ZINKER BURGER</div>
+        </div>
+        <div class="item-price">AED 12.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Zinker Burger', 12)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Tempura-Prawns.jpg" class="item-img" alt="Jumbo Prawns">
+        <div class="item-info">
+          <div class="item-name">JUMBO PRAWNS BURGER</div>
+        </div>
+        <div class="item-price">AED 13.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Jumbo Prawns Burger', 13)">Add +</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Poratta -->
+  <section class="menu-category" id="poratta" style="background: var(--mid);">
+    <h2 class="menu-category-title">Poratta Sandwiches</h2>
+    <img src="images/food/Sarab-Sp.-Poratta.jpg" class="category-banner active" alt="Poratta Sandwiches">
+    <div class="items-list">
+      <div class="item-row">
+        <img src="images/food/Sarab-Sp.-Poratta.jpg" class="item-img" alt="Sarab Sp. Poratta">
+        <div class="item-info">
+          <div class="item-name">SARAB SP. PORATTA</div>
+        </div>
+        <div class="item-price">AED 11.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Sarab Sp. Poratta', 11)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Sarab-Sp.-Poratta.jpg" class="item-img" alt="Zinker Poratta">
+        <div class="item-info">
+          <div class="item-name">ZINKER PORATTA</div>
+        </div>
+        <div class="item-price">AED 10.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Zinker Poratta', 10)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Tempura-Nuggets.jpg" class="item-img" alt="Oman Chips Poratta">
+        <div class="item-info">
+          <div class="item-name">OMAN CHIPS PORATTA</div>
+        </div>
+        <div class="item-price">AED 3.50</div>
+        <button class="btn-add-mini" onclick="addToCart('Oman Chips Poratta', 3.5)">Add +</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sandwiches -->
+  <section class="menu-category" id="sandwiches">
+    <h2 class="menu-category-title">Sandwiches & Combos</h2>
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-info">
+          <div class="item-name">Super Mathafi Combo</div>
+        </div>
+        <div class="item-price">AED 16.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Super Mathafi Combo', 16)">Add +</button>
+      </div>
+      <div class="item-row">
+        <div class="item-info">
+          <div class="item-name">Zinker Supreme</div>
+        </div>
+        <div class="item-price">AED 12.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Zinker Supreme', 12)">Add +</button>
+      </div>
+      <div class="item-row">
+        <div class="item-info">
+          <div class="item-name">Chicken Lime Sandwich</div>
+          <div class="item-arabic">دجاج ليمون</div>
+        </div>
+        <div class="item-price">AED 7.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Chicken Lime', 7)">Add +</button>
+      </div>
+      <div class="item-row">
+        <div class="item-info">
+          <div class="item-name">Kuku Sarab Arabic</div>
+        </div>
+        <div class="item-price">AED 21.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Kuku Sarab', 21)">Add +</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Juices -->
+  <section class="menu-category" id="juices" style="background: var(--mid);">
+    <h2 class="menu-category-title">Signature Juices & Coconut</h2>
+    <img src="images/food/Salah.jpg" class="category-banner active" alt="Juices">
+    <div class="items-list">
+      <div class="item-row">
+        <img src="images/food/Salah.jpg" class="item-img" alt="Falak Juice">
+        <div class="item-info">
+          <div class="item-name">FALAK JUICE</div>
+        </div>
+        <div class="item-price">AED 13/17</div>
+        <button class="btn-add-mini" onclick="addToCart('Falak Juice', 13)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Salah.jpg" class="item-img" alt="Abood Juice">
+        <div class="item-info">
+          <div class="item-name">ABOOD JUICE</div>
+        </div>
+        <div class="item-price">AED 10/13</div>
+        <button class="btn-add-mini" onclick="addToCart('Abood Juice', 10)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/Tender-Coconut-Mix-Juice.jpg" class="item-img" alt="Tender Coconut Shake">
+        <div class="item-info">
+          <div class="item-name">TENDER COCONUT SHAKE</div>
+        </div>
+        <div class="item-price">AED 13.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Tender Coconut Shake', 13)">Add +</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-category" id="meals">
+    <h2 class="menu-category-title">Value Meals</h2>
+    <img src="images/food/TRENd-MEAL.jpg" class="category-banner active" alt="Value Meals">
+    <div class="items-list">
+      <div class="item-row">
+        <img src="images/food/TRENd-MEAL.jpg" class="item-img" alt="Trend Meal">
+        <div class="item-info">
+          <div class="item-name">TREND MEAL</div>
+        </div>
+        <div class="item-price">AED 25.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Trend Meal', 25)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/TRENd-MEAL.jpg" class="item-img" alt="Family Meal">
+        <div class="item-info">
+          <div class="item-name">FAMILY MEAL</div>
+        </div>
+        <div class="item-price">AED 55.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Family Meal', 55)">Add +</button>
+      </div>
+      <div class="item-row">
+        <img src="images/food/TRENd-MEAL.jpg" class="item-img" alt="Function Meal">
+        <div class="item-info">
+          <div class="item-name">FUNCTION MEAL</div>
+        </div>
+        <div class="item-price">AED 109.00</div>
+        <button class="btn-add-mini" onclick="addToCart('Function Meal', 109)">Add +</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CART WIDGET -->
+<div id="cart-widget">
+  <div class="cart-header">
+    <span>Your Order (<span id="cart-count">0</span>)</span>
+  </div>
+  <div class="cart-body" id="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span>AED <span id="cart-total">0.00</span></span>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.52 3.44003C18.24 1.15003 15.18 -0.109969 11.95 -0.109969C5.3 -0.109969 0 5.17003 0 11.83C0 13.96 0.560002 16.03 1.62 17.84L0.260002 22.84L5.38 21.5C7.13 22.45 9.07 22.95 11.95 22.95C18.59 22.95 23.9 17.67 23.9 11.83C23.9 8.62003 22.65 5.58003 20.37 3.32003H20.52ZM11.95 20.89C10.15 20.89 8.39999 20.4 6.84999 19.48L6.46999 19.26L3.41999 20.06L4.23999 17.08L3.99999 16.69C2.98999 15.09 2.45 13.23 2.45 11.29C2.45 6.07003 6.71 1.82003 11.95 1.82003C14.49 1.82003 16.9 2.81003 18.69 4.60003C20.48 6.39003 21.46 8.80003 21.46 11.34C21.45 16.56 17.18 20.89 11.95 20.89ZM17.17 13.8C16.88 13.66 15.46 12.96 15.19 12.87C14.93 12.77 14.73 12.72 14.54 13.01C14.35 13.3 13.8 13.94 13.64 14.13C13.48 14.32 13.31 14.35 13.02 14.21C12.73 14.07 11.81 13.76 10.72 12.79C9.86 12.03 9.28 11.08 9.12 10.79C8.96 10.5 9.1 10.35 9.24 10.21C9.37 10.08 9.53 9.87003 9.68 9.70003C9.82 9.53003 9.87 9.40003 9.97 9.21003C10.07 9.02003 10.02 8.86003 9.95 8.72003C9.88 8.58003 9.28 7.12003 9.04 6.53003C8.8 5.96003 8.56 6.04003 8.39 6.03003C8.22 6.02003 8.03 6.02003 7.84 6.02003C7.65 6.02003 7.34 6.09003 7.07 6.38003C6.8 6.67003 6.03 7.39003 6.03 8.85003C6.03 10.31 7.1 11.72 7.25 11.92C7.4 12.12 9.34 15.11 12.33 16.4C13.04 16.71 13.6 16.89 14.04 17.03C14.75 17.26 15.39 17.22 15.9 17.14C16.47 17.05 17.65 16.43 17.9 15.75C18.15 15.07 18.15 14.49 18.08 14.36C18.01 14.22 17.81 14.13 17.52 13.99L17.17 13.8Z"/>
+      </svg>
+      Checkout via WhatsApp
+    </button>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+  function addToCart(name, price) {
+    // If price is a string like "18/23", we take the first number
+    const numericPrice = typeof price === 'string' ? parseFloat(price.split('/')[0]) : price;
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name, price: numericPrice, displayPrice: price, qty: 1 });
+    }
+    updateCart();
+    const widget = document.getElementById('cart-widget');
+    widget.style.transform = 'translateY(-10px)';
+    setTimeout(() => widget.style.transform = 'translateY(0)', 200);
+  }
+
+  function updateCart() {
+    const cartEl = document.getElementById('cart-items');
+    const countEl = document.getElementById('cart-count');
+    const totalEl = document.getElementById('cart-total');
+    if (cart.length === 0) {
+      document.getElementById('cart-widget').classList.remove('active');
+      return;
+    }
+    document.getElementById('cart-widget').classList.add('active');
+    let total = 0;
+    cartEl.innerHTML = cart.map(item => {
+      total += item.price * item.qty;
+      return `
+        <div class="cart-item">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">
+            ${item.qty}x AED ${item.price.toFixed(2)}
+            <button class="btn-remove" onclick="removeFromCart('${item.name}')">&times;</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    countEl.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    totalEl.innerText = total.toFixed(2);
+  }
+
+  function removeFromCart(name) {
+    cart = cart.filter(i => i.name !== name);
+    updateCart();
+  }
+
+  function checkout() {
+    if (cart.length === 0) return;
+    let text = "Hello Al Sarab! I would like to place an order:\n\n";
+    let total = 0;
+    cart.forEach(item => {
+      text += `- ${item.qty}x ${item.name} (AED ${(item.price * item.qty).toFixed(2)})\n`;
+      total += item.price * item.qty;
+    });
+    text += `\n*Total: AED ${total.toFixed(2)}*\n`;
+    const encodedText = encodeURIComponent(text);
+    window.open(`https://wa.me/971502041468?text=${encodedText}`, '_blank');
+  }
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo"><img src="images/al-sarab-logo-cropped.png" alt="Al Sarab Cafeteria"></div>
+      <p>Serving the UAE with pride since 1988. Authentic Arabic, Chinese, and Indian flavours — open 24 hours.</p>
+      <a href="mailto:alsarabgroupae@gmail.com" class="footer-email">alsarabgroupae@gmail.com</a>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Full Menu</a></li>
+        <li><a href="index.html#branches">Branches</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li>050 204 1468</li>
+        <li>050 137 2435</li>
+        <li>06 574 6472</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Al Sarab Cafeteria. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="menu-renderer.js"></script>
+
+</body>
+</html>
