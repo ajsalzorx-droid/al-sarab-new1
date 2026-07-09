@@ -12,16 +12,30 @@
     if (initialHash) {
       history.replaceState(null, '', window.location.pathname + window.location.search);
     }
+    let userMovedPage = false;
+    const markUserMovedPage = () => { userMovedPage = true; };
+    window.addEventListener('wheel', markUserMovedPage, { passive: true, once: true });
+    window.addEventListener('touchstart', markUserMovedPage, { passive: true, once: true });
+    window.addEventListener('keydown', markUserMovedPage, { once: true });
+    window.addEventListener('mousedown', markUserMovedPage, { once: true });
+    const forceHeroTop = () => {
+      if (!userMovedPage) {
+        window.scrollTo(0, 0);
+      }
+    };
     const showHeroFirst = () => {
       document.documentElement.style.scrollBehavior = 'auto';
-      window.scrollTo(0, 0);
-      requestAnimationFrame(() => window.scrollTo(0, 0));
-      window.setTimeout(() => window.scrollTo(0, 0), 80);
-      window.setTimeout(() => window.scrollTo(0, 0), 320);
+      forceHeroTop();
+      requestAnimationFrame(forceHeroTop);
+      window.setTimeout(forceHeroTop, 80);
+      window.setTimeout(forceHeroTop, 320);
+      window.setTimeout(forceHeroTop, 900);
+      window.setTimeout(forceHeroTop, 1800);
+      window.setTimeout(forceHeroTop, 3000);
       window.setTimeout(() => {
-        window.scrollTo(0, 0);
+        forceHeroTop();
         document.documentElement.style.scrollBehavior = '';
-      }, 900);
+      }, 3600);
     };
     showHeroFirst();
     window.addEventListener('DOMContentLoaded', showHeroFirst);
@@ -90,7 +104,7 @@
 
     .hero-left {
       display: flex; flex-direction: column; justify-content: center;
-      padding: 132px 7vw 74px 7vw;
+      padding: 128px 7vw 68px 7vw;
       position: relative; z-index: 2;
     }
     .hero-tag {
@@ -102,8 +116,8 @@
     h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.7rem, 8vw, 8.7rem); line-height: 0.85; letter-spacing: 0.015em; color: var(--red); margin-bottom: 16px; }
     h1 .highlight { color: var(--red); }
     .cafeteria-sub { font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; font-size: 0.45em; font-weight: 400; letter-spacing: 0.12em; display: block; color: var(--cream); margin-top: 5px; }
-    .hero-arabic { font-family: 'Noto Kufi Arabic', sans-serif; font-size: clamp(1.45rem, 2vw, 1.85rem); color: rgba(17,17,17,0.55); margin-bottom: 28px; }
-    .hero-desc { font-size: 1.05rem; line-height: 1.75; color: var(--light-text); max-width: 460px; margin-bottom: 34px; }
+    .hero-arabic { font-family: 'Noto Kufi Arabic', sans-serif; font-size: clamp(1.45rem, 2vw, 1.85rem); color: rgba(17,17,17,0.55); margin-bottom: 30px; }
+    .hero-desc { font-size: 1.05rem; line-height: 1.75; color: var(--light-text); max-width: 470px; margin-bottom: 38px; }
     .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
     .btn-primary,
     .btn-outline {
@@ -122,41 +136,43 @@
     .btn-outline { background: transparent; color: var(--cream); border: 1.5px solid rgba(17,17,17,0.2); }
     .btn-outline:hover { border-color: var(--red); color: var(--red); transform: translateY(-3px); box-shadow: 0 12px 28px rgba(17,17,17,0.08); }
     .hero-status-card {
-      margin-top: 34px;
-      max-width: 520px;
-      background: #fff;
-      border: 1px solid rgba(17,17,17,0.08);
-      box-shadow: 0 18px 46px rgba(17,17,17,0.08);
-      padding: 18px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      margin-top: clamp(42px, 8vh, 70px);
+      max-width: 620px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: rgba(17,17,17,0.36);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
     .hero-status-item {
-      min-height: 76px;
-      padding: 14px 12px;
-      background: #f8f8f7;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-left: 3px solid var(--red);
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+    }
+    .hero-status-item:not(:last-child)::after {
+      content: '-';
+      margin-left: 14px;
+      color: rgba(17,17,17,0.26);
     }
     .hero-status-label {
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(17,17,17,0.48);
-      margin-bottom: 7px;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
     }
     .hero-status-value {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.35rem;
-      line-height: 0.95;
-      letter-spacing: 0.04em;
-      color: #111;
+      font-family: 'Barlow', sans-serif;
+      font-size: inherit;
+      line-height: 1.45;
+      letter-spacing: inherit;
+      color: inherit;
     }
-    .hero-status-value.red { color: var(--red); }
+    .hero-status-value.red { color: inherit; }
 
     .hero-right { position: relative; background: var(--red); overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .hero-right::before {
@@ -183,8 +199,8 @@
     /* HERO SLIDER */
     .hero-slider {
       position: relative;
-      width: min(410px, 82%);
-      aspect-ratio: 1;
+      width: min(360px, 74%);
+      aspect-ratio: 1.08;
       margin-bottom: 34px;
       z-index: 2;
       animation: floatCard 4.5s ease-in-out infinite;
@@ -1031,7 +1047,11 @@
       .hero-tag::before { width: 24px; }
       .hero-desc { max-width: 560px; }
       .hero-ctas { justify-content: center; }
-      .hero-status-card { width: min(100%, 620px); }
+      .hero-status-card {
+        width: min(100%, 620px);
+        justify-content: center;
+        margin-top: 36px;
+      }
       .hero-right { min-height: 440px; }
       .hero-panel-inner { padding: 42px 28px; }
       .hero-slider { width: min(320px, 76%); }
@@ -1130,17 +1150,18 @@
       .hero-desc { font-size: 0.96rem; line-height: 1.62; margin-bottom: 28px; }
       .hero-arabic { font-size: 1.25rem; margin-bottom: 18px; }
       .hero-status-card {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 10px;
-        margin-top: 24px;
-        text-align: left;
+        gap: 6px 8px;
+        margin-top: 26px;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.64rem;
+        letter-spacing: 0.13em;
       }
       .hero-status-item {
-        min-height: 58px;
-        padding: 12px 14px;
+        justify-content: center;
       }
-      .hero-status-value { font-size: 1.18rem; }
+      .hero-status-item:not(:last-child)::after { margin-left: 8px; }
+      .hero-status-value { font-size: inherit; }
       .hero-right { min-height: 356px; }
       .hero-panel-inner { padding: 22px 16px; }
       .hero-slider { width: min(238px, 76%); margin-bottom: 20px; }
@@ -1264,9 +1285,9 @@
     <div class="hero-panel-inner">
       <!-- Image Slider -->
       <div class="hero-slider">
-        <img class="active" src="images/food/wagyu-slider-(beef---chicken).jpg" alt="Premium Burger" />
+        <img class="active" src="images/food/Sarab-Sp.-Poratta.jpg" alt="Al Sarab wrapped sandwich" />
         <img src="images/food/Tender-Coconut-Mix-Juice.jpg" alt="Refreshing Juice" />
-        <img src="images/food/Sarab-Sp.-Poratta.jpg" alt="Gourmet Sandwich" />
+        <img src="images/food/wagyu-slider-(beef---chicken).jpg" alt="Premium Burger" />
         <img src="images/food/wagyu-slider-(beef---chicken).jpg" alt="Wagyu Slider" />
         <img src="images/food/Sarab-Sp.-Poratta.jpg" alt="Delicious Wrap" />
         <img src="images/food/Tender-Coconut.jpg" alt="Karak Tea" />
@@ -1726,8 +1747,8 @@
     slides[currentSlide].classList.add('active');
   }
 
-  // Change slide every 3.5 seconds
-  setInterval(nextSlide, 3500);
+  // Change slide after visitors have time to see the opening hero.
+  setInterval(nextSlide, 6000);
 
   // Signature picks auto slider
   const featureSlides = [
