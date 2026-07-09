@@ -65,35 +65,89 @@
     .nav-order-btn:hover { background: var(--dark-red) !important; }
 
     /* HERO */
-    .hero { min-height: 100vh; display: grid; grid-template-columns: 55% 45%; position: relative; overflow: hidden; }
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 52%) minmax(420px, 48%);
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
 
     .hero-left {
       display: flex; flex-direction: column; justify-content: center;
-      padding: 140px 60px 80px 80px;
+      padding: 132px 7vw 74px 7vw;
       position: relative; z-index: 2;
     }
     .hero-tag {
       display: inline-flex; align-items: center; gap: 12px;
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--red); margin-bottom: 30px;
+      color: var(--red); margin-bottom: 28px;
     }
     .hero-tag::before { content: ''; display: block; width: 32px; height: 2px; background: var(--red); }
-    h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 8vw, 8.5rem); line-height: 0.85; letter-spacing: 0.015em; color: var(--red); margin-bottom: 14px; }
+    h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.7rem, 8vw, 8.7rem); line-height: 0.85; letter-spacing: 0.015em; color: var(--red); margin-bottom: 16px; }
     h1 .highlight { color: var(--red); }
     .cafeteria-sub { font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; font-size: 0.45em; font-weight: 400; letter-spacing: 0.12em; display: block; color: var(--cream); margin-top: 5px; }
-    .hero-arabic { font-family: 'Noto Kufi Arabic', sans-serif; font-size: 1.7rem; color: rgba(17,17,17,0.5); margin-bottom: 30px; }
-    .hero-desc { font-size: 1.05rem; line-height: 1.75; color: var(--light-text); max-width: 400px; margin-bottom: 46px; }
+    .hero-arabic { font-family: 'Noto Kufi Arabic', sans-serif; font-size: clamp(1.45rem, 2vw, 1.85rem); color: rgba(17,17,17,0.55); margin-bottom: 28px; }
+    .hero-desc { font-size: 1.05rem; line-height: 1.75; color: var(--light-text); max-width: 460px; margin-bottom: 34px; }
     .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
-    .btn-primary { background: var(--red); color: var(--white); padding: 16px 38px; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s; }
-    .btn-primary:hover { background: var(--dark-red); transform: translateY(-2px); }
-    .btn-outline { background: transparent; color: var(--cream); padding: 15px 38px; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; text-decoration: none; border: 1.5px solid rgba(17,17,17,0.2); display: inline-block; transition: border-color 0.2s, color 0.2s, transform 0.15s; }
-    .btn-outline:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); }
-    .hero-since { margin-top: 56px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(102,102,102,0.6); }
+    .btn-primary,
+    .btn-outline {
+      min-width: 178px;
+      text-align: center;
+      padding: 16px 34px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.08rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .btn-primary { background: var(--red); color: var(--white); box-shadow: 0 14px 30px rgba(211,24,24,0.22); }
+    .btn-primary:hover { background: var(--dark-red); transform: translateY(-3px); box-shadow: 0 18px 38px rgba(211,24,24,0.28); }
+    .btn-outline { background: transparent; color: var(--cream); border: 1.5px solid rgba(17,17,17,0.2); }
+    .btn-outline:hover { border-color: var(--red); color: var(--red); transform: translateY(-3px); box-shadow: 0 12px 28px rgba(17,17,17,0.08); }
+    .hero-status-card {
+      margin-top: 34px;
+      max-width: 520px;
+      background: #fff;
+      border: 1px solid rgba(17,17,17,0.08);
+      box-shadow: 0 18px 46px rgba(17,17,17,0.08);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .hero-status-item {
+      min-height: 76px;
+      padding: 14px 12px;
+      background: #f8f8f7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 3px solid var(--red);
+    }
+    .hero-status-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(17,17,17,0.48);
+      margin-bottom: 7px;
+    }
+    .hero-status-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      color: #111;
+    }
+    .hero-status-value.red { color: var(--red); }
 
     .hero-right { position: relative; background: var(--red); overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .hero-right::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 65% 35%, rgba(255,255,255,0.1) 0%, transparent 60%), radial-gradient(ellipse at 25% 85%, rgba(255,255,255,0.25) 0%, transparent 55%);
+      background: radial-gradient(ellipse at 65% 35%, rgba(255,255,255,0.14) 0%, transparent 60%), radial-gradient(ellipse at 24% 82%, rgba(255,255,255,0.22) 0%, transparent 55%);
     }
 
     /* Decorative contour rings in hero right */
@@ -103,7 +157,7 @@
     }
     .hero-contour circle { fill: none; stroke: var(--dark); stroke-width: 1.5; }
 
-    .hero-panel-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 40px; }
+    .hero-panel-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 52px; }
     .hero-food-svg { width: min(300px, 68%); margin-bottom: 30px; filter: drop-shadow(0 24px 48px rgba(26,17,8,0.4)); }
     .hero-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 5vw, 4.5rem); color: var(--dark); line-height: 1; letter-spacing: 0.06em; }
     .hero-logo-sub { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.85); margin-top: 6px; margin-bottom: 28px; }
@@ -115,18 +169,19 @@
     /* HERO SLIDER */
     .hero-slider {
       position: relative;
-      width: min(500px, 90%);
+      width: min(410px, 82%);
       aspect-ratio: 1;
-      margin-bottom: 30px;
+      margin-bottom: 34px;
       z-index: 2;
+      animation: floatCard 4.5s ease-in-out infinite;
     }
     .hero-slider img {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      border-radius: 24px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      border-radius: 28px;
+      box-shadow: 0 30px 70px rgba(42,0,0,0.34), 0 0 0 1px rgba(255,255,255,0.16);
       opacity: 0;
       transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
       transform: scale(0.95);
@@ -134,6 +189,10 @@
     .hero-slider img.active {
       opacity: 1;
       transform: scale(1);
+    }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
     }
 
     /* MARQUEE */
@@ -930,7 +989,7 @@
     .hero-arabic   { animation-delay: 0.3s; }
     .hero-desc     { animation-delay: 0.4s; }
     .hero-ctas     { animation-delay: 0.5s; }
-    .hero-since    { animation-delay: 0.6s; }
+    .hero-status-card { animation-delay: 0.6s; }
     .hero-right    { animation: fadeUp 0.8s ease 0.25s both; }
 
     /* RESPONSIVE */
@@ -938,8 +997,10 @@
       nav { padding: 16px 36px; }
       nav ul { gap: 24px; }
       .nav-logo img { width: 132px; height: 58px; }
-      .hero-left { padding: 130px 44px 70px 56px; }
-      .hero-slider { width: min(420px, 88%); }
+      .hero { grid-template-columns: minmax(0, 52%) minmax(360px, 48%); }
+      .hero-left { padding: 126px 44px 64px 56px; }
+      .hero-slider { width: min(360px, 84%); }
+      .hero-status-card { max-width: 480px; }
       .menu-grid { grid-template-columns: repeat(2, 1fr); }
       .featured-grid { grid-template-columns: 1fr 1fr; }
       .feat-card.main { grid-column: span 2; }
@@ -948,8 +1009,18 @@
       nav { padding: 16px 24px; }
       nav ul { display: none; }
       .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-right { min-height: 470px; }
-      .hero-left { padding: 112px 32px 48px; }
+      .hero-left {
+        padding: 118px 32px 52px;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-tag::before { width: 24px; }
+      .hero-desc { max-width: 560px; }
+      .hero-ctas { justify-content: center; }
+      .hero-status-card { width: min(100%, 620px); }
+      .hero-right { min-height: 440px; }
+      .hero-panel-inner { padding: 42px 28px; }
+      .hero-slider { width: min(320px, 76%); }
       .section, .featured-section, .branches-section { padding: 70px 28px; }
       .menu-grid { grid-template-columns: 1fr 1fr; }
       .menu-card { min-height: 260px; padding: 18px; }
@@ -1041,13 +1112,24 @@
       .nav-order-btn { padding: 8px 12px; }
       h1 { font-size: clamp(3.45rem, 17vw, 4.85rem); margin-bottom: 10px; }
       .hero-tag { margin-bottom: 20px; font-size: 0.64rem; letter-spacing: 0.18em; }
-      .hero-left { padding: 86px 20px 34px; }
+      .hero-left { padding: 88px 20px 34px; }
       .hero-desc { font-size: 0.96rem; line-height: 1.62; margin-bottom: 28px; }
       .hero-arabic { font-size: 1.25rem; margin-bottom: 18px; }
-      .hero-since { margin-top: 28px; line-height: 1.55; }
-      .hero-right { min-height: 342px; }
+      .hero-status-card {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+        margin-top: 24px;
+        text-align: left;
+      }
+      .hero-status-item {
+        min-height: 58px;
+        padding: 12px 14px;
+      }
+      .hero-status-value { font-size: 1.18rem; }
+      .hero-right { min-height: 356px; }
       .hero-panel-inner { padding: 22px 16px; }
-      .hero-slider { width: min(238px, 76%); margin-bottom: 18px; }
+      .hero-slider { width: min(238px, 76%); margin-bottom: 20px; }
       .hero-slider img { border-radius: 16px; }
       .hero-logo-text { font-size: 2.35rem; }
       .hero-logo-sub { font-size: 0.66rem; letter-spacing: 0.16em; margin-bottom: 16px; }
@@ -1141,7 +1223,20 @@
       <a href="menu.html" class="btn-primary">Explore Menu</a>
       <a href="#delivery" class="btn-outline">Home Delivery</a>
     </div>
-    <p class="hero-since">Est. 1988 - Open 24 Hours - Available on Talabat</p>
+    <div class="hero-status-card" aria-label="Opening status and service options">
+      <div class="hero-status-item">
+        <span class="hero-status-label">Now Serving</span>
+        <span class="hero-status-value red">Open 24 Hours</span>
+      </div>
+      <div class="hero-status-item">
+        <span class="hero-status-label">Online Orders</span>
+        <span class="hero-status-value">Available on Talabat</span>
+      </div>
+      <div class="hero-status-item">
+        <span class="hero-status-label">Service</span>
+        <span class="hero-status-value">Dine In &bull; Take Away &bull; Delivery</span>
+      </div>
+    </div>
   </div>
 
   <div class="hero-right">
