@@ -222,6 +222,10 @@ function categoryId(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+function itemId(category, name) {
+  return `${categoryId(category)}-${categoryId(name)}`;
+}
+
 function escapeAttr(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
@@ -254,7 +258,7 @@ function renderMenu() {
       <h2 class="menu-category-title">${escapeHtml(cat.category)}</h2>
       <div class="items-list">
         ${cat.items.map((item) => `
-          <div class="item-row">
+          <div class="item-row" id="${escapeAttr(itemId(cat.category, item.name))}" data-search-name="${escapeAttr(item.name)}" data-search-category="${escapeAttr(cat.category)}">
             <img src="${escapeAttr(item.image)}" class="item-img" alt="${escapeAttr(item.name)}">
             <div class="item-info">
               <div class="item-name">${escapeHtml(item.name)}</div>
@@ -265,6 +269,118 @@ function renderMenu() {
       </div>
     `;
     container.appendChild(section);
+  });
+}
+
+function getMenuSearchItems() {
+  if (!Array.isArray(menuData.menu_categories)) return [];
+  return menuData.menu_categories.flatMap((cat) => cat.items.map((item) => ({
+    id: itemId(cat.category, item.name),
+    name: item.name,
+    category: cat.category,
+    image: item.image,
+    haystack: `${item.name} ${cat.category}`.toLowerCase()
+  })));
+}
+
+function initMenuSearch() {
+  const input = document.getElementById('menu-search-input');
+  const suggestions = document.getElementById('menu-suggestions');
+  const clearButton = document.getElementById('menu-search-clear');
+  const status = document.getElementById('menu-search-status');
+  if (!input || !suggestions || !clearButton || !status) return;
+
+  const searchItems = getMenuSearchItems();
+
+  function closeSuggestions() {
+    suggestions.classList.remove('active');
+    suggestions.innerHTML = '';
+  }
+
+  function showStatus(message) {
+    status.textContent = message;
+    status.classList.toggle('active', Boolean(message));
+  }
+
+  function scrollToItem(item) {
+    const target = document.getElementById(item.id);
+    if (!target) return;
+
+    closeSuggestions();
+    input.value = item.name;
+    clearButton.classList.add('active');
+    showStatus(`${item.name} in ${item.category}`);
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.classList.add('search-hit');
+    window.setTimeout(() => target.classList.remove('search-hit'), 1500);
+  }
+
+  function renderSuggestions(matches, query) {
+    if (!query) {
+      closeSuggestions();
+      showStatus('');
+      return;
+    }
+
+    if (matches.length === 0) {
+      suggestions.innerHTML = '<div class="menu-suggestion-empty">No matching items found</div>';
+      suggestions.classList.add('active');
+      showStatus('No matching items found');
+      return;
+    }
+
+    suggestions.innerHTML = matches.slice(0, 8).map((item, index) => `
+      <button class="menu-suggestion" type="button" role="option" data-menu-search-index="${index}">
+        <img src="${escapeAttr(item.image)}" alt="">
+        <span>
+          <span class="suggestion-name">${escapeHtml(item.name)}</span>
+          <span class="suggestion-category">${escapeHtml(item.category)}</span>
+        </span>
+      </button>
+    `).join('');
+    suggestions.classList.add('active');
+    showStatus(`${matches.length} suggestion${matches.length === 1 ? '' : 's'} found`);
+
+    [...suggestions.querySelectorAll('[data-menu-search-index]')].forEach((button) => {
+      button.addEventListener('click', () => scrollToItem(matches[Number(button.dataset.menuSearchIndex)]));
+    });
+  }
+
+  function updateSearch() {
+    const query = input.value.trim().toLowerCase();
+    clearButton.classList.toggle('active', Boolean(query));
+    const matches = query
+      ? searchItems.filter((item) => item.haystack.includes(query))
+      : [];
+    renderSuggestions(matches, query);
+  }
+
+  input.addEventListener('input', updateSearch);
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      input.value = '';
+      clearButton.classList.remove('active');
+      closeSuggestions();
+      showStatus('');
+    }
+    if (event.key === 'Enter') {
+      const query = input.value.trim().toLowerCase();
+      const firstMatch = searchItems.find((item) => item.haystack.includes(query));
+      if (firstMatch) {
+        event.preventDefault();
+        scrollToItem(firstMatch);
+      }
+    }
+  });
+  clearButton.addEventListener('click', () => {
+    input.value = '';
+    input.focus();
+    clearButton.classList.remove('active');
+    closeSuggestions();
+    showStatus('');
+  });
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.menu-search')) closeSuggestions();
   });
 }
 
@@ -350,6 +466,7 @@ function initCategorySlider() {
 
 document.addEventListener('DOMContentLoaded', () => {
   renderMenu();
+  initMenuSearch();
   renderHomeMenu();
   initCategorySlider();
 });
