@@ -75,7 +75,7 @@
       background: transparent;
       text-align: center;
       position: relative;
-      z-index: 1;
+      z-index: 220;
     }
     .menu-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); letter-spacing: 0.02em; color: var(--white); margin-bottom: 14px; }
     .menu-hero h1 .highlight { color: #ffffff; }
@@ -84,8 +84,9 @@
       max-width: 620px;
       margin: 0 auto;
       position: relative;
-      z-index: 5;
+      z-index: 260;
     }
+    .menu-search:focus-within { z-index: 320; }
     .menu-search-field {
       display: grid;
       grid-template-columns: 24px minmax(0, 1fr) 34px;
@@ -124,8 +125,14 @@
       background: transparent;
       color: #111;
       font: 600 1rem 'Barlow', sans-serif;
+      -webkit-appearance: none;
+      appearance: none;
     }
     #menu-search-input::placeholder { color: rgba(17,17,17,0.46); }
+    #menu-search-input::-webkit-search-decoration,
+    #menu-search-input::-webkit-search-cancel-button,
+    #menu-search-input::-webkit-search-results-button,
+    #menu-search-input::-webkit-search-results-decoration { display: none; }
     .menu-search-clear {
       width: 34px;
       height: 34px;
@@ -151,9 +158,11 @@
       border-radius: 8px;
       box-shadow: 0 22px 54px rgba(22,7,5,0.28);
       border: 1px solid rgba(17,17,17,0.08);
-      overflow: hidden;
+      overflow: hidden auto;
       display: none;
       text-align: left;
+      max-height: min(360px, 48vh);
+      z-index: 330;
     }
     .menu-suggestions.active { display: block; }
     .menu-suggestion {
@@ -219,7 +228,7 @@
     .category-nav-shell {
       position: sticky;
       top: 75px;
-      z-index: 150;
+      z-index: 140;
       background: rgba(22,7,5,0.62);
       backdrop-filter: blur(12px);
       padding: 14px 40px;
